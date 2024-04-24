@@ -38,4 +38,9 @@ public class Sessao {
         this.sala = sala;
     }
 
+    @Override
+    public String toString() {
+        return "Sessao [filme=" + filme + ", horario=" + horario + ", sala=" + sala + "]";
+    }
+    
 }

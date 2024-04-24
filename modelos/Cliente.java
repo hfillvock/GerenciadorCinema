@@ -36,4 +36,9 @@ public class Cliente {
         this.idade = idade;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente [nome=" + nome + ", email=" + email + ", idade=" + idade + "]";
+    }
+
 }

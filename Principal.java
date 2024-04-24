@@ -1,9 +1,19 @@
-import java.util.Scanner;
+import modelos.*;
 
 public class Principal {
 
     public static void main(String[] args) {
 
+        GerenciadorCinema gerenciadorCinema = new GerenciadorCinema();
+
+        separador();
+        System.out.println(gerenciadorCinema.getFilmes()); // testando pra ver se lê o que já tinha no arquivo filmes.txt
+
+        gerenciadorCinema.adicionarFilme(); // testando adicionar mais um filme
+
+        FileManager.salvarFilmes(gerenciadorCinema.getFilmes()); // testando salvar
+        
+        /*
         Scanner scanner = new Scanner(System.in);
         char aux = ' ';
 
@@ -45,7 +55,7 @@ public class Principal {
         }
 
         scanner.close();
-
+         */
     }
 
     public static void separador() {

@@ -36,4 +36,9 @@ public class Ingresso {
         this.preco = preco;
     }
 
+    @Override
+    public String toString() {
+        return "Ingresso [sessao=" + sessao + ", numeroAssento=" + numeroAssento + ", preco=" + preco + "]";
+    }
+    
 }
