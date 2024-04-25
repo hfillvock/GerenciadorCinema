@@ -7,11 +7,21 @@ public class Principal {
         GerenciadorCinema gerenciadorCinema = new GerenciadorCinema();
 
         separador();
-        System.out.println(gerenciadorCinema.getFilmes()); // testando pra ver se lê o que já tinha no arquivo filmes.txt
+        // System.out.println(gerenciadorCinema.getFilmes()); // testando pra ver se lê o que já tinha no arquivo filmes.txt
 
-        gerenciadorCinema.adicionarFilme(); // testando adicionar mais um filme
+        // gerenciadorCinema.adicionarFilme(); // testando adicionar mais um filme
 
-        FileManager.salvarFilmes(gerenciadorCinema.getFilmes()); // testando salvar
+        // FileManager.salvarFilmes(gerenciadorCinema.getFilmes()); // testando salvar
+
+        gerenciadorCinema.listarFilmes();
+
+        gerenciadorCinema.pesquisarFilme();
+
+        gerenciadorCinema.removerFilme();
+
+        gerenciadorCinema.adicionarFilme();
+
+        gerenciadorCinema.listarFilmes();
         
         /*
         Scanner scanner = new Scanner(System.in);

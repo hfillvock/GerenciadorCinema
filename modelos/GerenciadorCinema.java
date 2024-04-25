@@ -1,7 +1,8 @@
+package modelos;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import modelos.*;
 
 public class GerenciadorCinema {
 
@@ -30,27 +31,71 @@ public class GerenciadorCinema {
     // Métodos para adicionar, remover, pesquisar, listar filmes, sessoes, ingressos e clientes
 
     public void adicionarFilme() {
-        System.out.println("Insira o titulo do filme: ");
+        System.out.println("Insira o título do filme: ");
         String titulo = scanner.nextLine();
+        System.out.println();
 
         System.out.println("Insira a classificação do filme: ");
         int classificacao = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println();
 
         System.out.println("Insira a duração do filme em minutos: ");
         int duracao = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println();
 
         Filme filmeAdicionado = new Filme(titulo, classificacao, duracao);
         filmes.add(filmeAdicionado);
     }
 
-    public void removerFilme(int indice) {
+    public void removerFilme() {
+        System.out.println("Insira o índice do filme: ");
+        int indice = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println();
+
         filmes.remove(indice);
     }
 
-    public void pesquisarFilme() {
-        
+    /**
+     * Pesquisa incidência do filme por meio do título.
+     * @return -1 caso não exista um filme com o mesmo título; índice do filme caso exista.
+     */
+    public int pesquisarFilme() {
+        System.out.println("Insira o título do filme: ");
+        String titulo = scanner.nextLine();
+        System.out.println();
+
+        int indice = 0;
+
+        for (Filme filme : filmes) {
+            if (filme.getTitulo().equals(titulo)) {
+                System.out.println("Filme encontrado: \n" + indice + ": " + filme.toString());
+                System.out.println();
+                return indice;
+            }
+
+            indice++;
+        }
+
+        System.out.println("Filme não encontrado.");
+        System.out.println();
+        return -1;
     }
     
+    public void listarFilmes() {
+        int indice = 0;
+
+        for (Filme filme : filmes) {
+            System.out.println(indice + ": " + filme);
+
+            indice++;
+        }
+
+        System.out.println();
+    }
+
     // getters e setters
 
     public List<Filme> getFilmes() {
