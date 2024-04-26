@@ -84,29 +84,28 @@ public class FileManager {
         List<Filme> filmesCarregados = new ArrayList<>();
 
         for (String representacao : dadosCarregados) {
-            String[] params = representacao.substring(7, representacao.length() - 1).split(", ");
+            String[] parametros = representacao.substring(7, representacao.length() - 1).split(", ");
 
             String titulo = null;
             int classificacao = 0;
             int duracao = 0;
 
-            for (String param : params) {
-                String[] keyValue = param.split("=");
-                String key = keyValue[0];
-                String value = keyValue[1];
+            for (String parametro : parametros) {
+                String[] valorChave = parametro.split("=");
+                String chave = valorChave[0];
+                String valor = valorChave[1];
 
-                switch (key) {
+                switch (chave) {
                     case "titulo":
-                        titulo = value;
+                        titulo = valor;
                         break;
                     case "classificacao":
-                        classificacao = Integer.parseInt(value);
+                        classificacao = Integer.parseInt(valor);
                         break;
                     case "duracao":
-                        duracao = Integer.parseInt(value);
+                        duracao = Integer.parseInt(valor);
                         break;
                     default:
-                        // Handle unknown key
                         System.out.println("ERRO: Chave inválida.");
                         break;
                 }
@@ -117,6 +116,44 @@ public class FileManager {
         }
 
         return filmesCarregados;
+    }  
+
+    public static List<Cliente> carregarClientes(List<String> dadosCarregados) {
+        List<Cliente> clientesCarregados = new ArrayList<>();
+
+        for (String representacao : dadosCarregados) {
+            String[] parametros = representacao.substring(9, representacao.length() - 1).split(", ");
+
+            String nome = null;
+            String email = null;
+            int idade = 0;
+
+            for (String parametro : parametros) {
+                String[] valorChave = parametro.split("=");
+                String chave = valorChave[0];
+                String valor = valorChave[1];
+
+                switch (chave) {
+                    case "nome":
+                        nome = valor;
+                        break;
+                    case "email":
+                        email = valor;
+                        break;
+                    case "idade":
+                        idade = Integer.parseInt(valor);
+                        break;
+                    default:
+                        System.out.println("ERRO: Chave inválida.");
+                        break;
+                }
+            }
+
+            Cliente cliente = new Cliente(nome, email, idade);
+            clientesCarregados.add(cliente);
+        }
+
+        return clientesCarregados;
     }
 
     /**

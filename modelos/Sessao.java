@@ -1,16 +1,16 @@
 package modelos;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Sessao {
 
     private Filme filme;
-    private Date horario;
+    private LocalDate data;
     private int sala;
     
-    public Sessao(Filme filme, Date horario, int sala) {
+    public Sessao(Filme filme, LocalDate data, int sala) {
         this.filme = filme;
-        this.horario = horario;
+        this.data = data;
         this.sala = sala;
     }
 
@@ -22,12 +22,12 @@ public class Sessao {
         this.filme = filme;
     }
 
-    public Date getHorario() {
-        return horario;
+    public LocalDate getData() {
+        return data;
     }
 
-    public void setHorario(Date horario) {
-        this.horario = horario;
+    public void setData(LocalDate data) {
+        this.data = data;
     }
 
     public int getSala() {
@@ -40,7 +40,7 @@ public class Sessao {
 
     @Override
     public String toString() {
-        return "Sessao [filme=" + filme + ", horario=" + horario + ", sala=" + sala + "]";
+        return "Sessao [filme=" + filme + ", data=" + data + ", sala=" + sala + "]";
     }
     
 }

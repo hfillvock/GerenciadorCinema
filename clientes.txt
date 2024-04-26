@@ -1,0 +1,2 @@
+Cliente [nome=jose, email=jose.jose.com, idade=20]
+Cliente [nome=josezao, email=josezaodasilva@gmail.com, idade=90]
