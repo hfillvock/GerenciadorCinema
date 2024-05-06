@@ -40,7 +40,7 @@ public class Sessao {
 
     @Override
     public String toString() {
-        return "Sessao [filme=" + filme + ", data=" + data + ", sala=" + sala + "]";
+        return "Sessao [filme=" + filme.getTitulo() + ", data=" + data + ", sala=" + sala + "]";
     }
     
 }

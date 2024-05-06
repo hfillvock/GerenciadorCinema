@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,6 +155,44 @@ public class FileManager {
         }
 
         return clientesCarregados;
+    }
+
+    public static List<Sessao> carregarSessoes(List<String> dadosCarregados, GerenciadorCinema gerenciadorCinema) {
+        List<Sessao> sessoesCarregadas = new ArrayList<>();
+
+        for (String representacao : dadosCarregados) {
+            String[] parametros = representacao.substring(8, representacao.length() - 1).split(", ");
+
+            Filme filme = null;
+            LocalDate data = null;
+            int sala = 0;
+
+            for (String parametro : parametros) {
+                String[] valorChave = parametro.split("=");
+                String chave = valorChave[0];
+                String valor = valorChave[1];
+
+                switch (chave) {
+                    case "filme":
+                        filme = gerenciadorCinema.getFilmes().get(gerenciadorCinema.pesquisarFilme(valor));
+                        break;
+                    case "data":
+                        data = LocalDate.parse(valor);
+                        break;
+                    case "sala":
+                        sala = Integer.parseInt(valor);
+                        break;
+                    default:
+                        System.out.println("ERRO: Chave inválida.");
+                        break;
+                }
+            }
+
+            Sessao sessao = new Sessao(filme, data, sala);
+            sessoesCarregadas.add(sessao);
+        }
+
+        return sessoesCarregadas;
     }
 
     /**

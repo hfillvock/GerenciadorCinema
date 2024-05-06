@@ -44,7 +44,7 @@ public class Principal {
                                 break;
                             
                             case 'p':
-                                gerenciadorCinema.pesquisarFilme();
+                                gerenciadorCinema.pesquisarFilme(null);
                                 break;
                             
                             case 'l':
@@ -104,7 +104,37 @@ public class Principal {
 
                 case 's':
                     limparTela();
-                    System.out.println("Gerenciando sessões\nEscolha uma opção: "); 
+
+                    do {
+                        aux2 = ' ';
+
+                        System.out.println("Gerenciando sessões.\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[l]istar\n[c]ancelar");
+                        aux2 = scanner.next().toLowerCase().charAt(0);
+                        scanner.nextLine();
+
+                        switch (aux2) {
+                            case 'a':
+                                gerenciadorCinema.adicionarSessao();
+                                break;
+                            
+                            case 'r':
+                                gerenciadorCinema.removerSessao();
+                                break;
+                            
+                            case 'l':
+                                gerenciadorCinema.listarSessoes();
+                                break;
+                            
+                            case 'c':
+                                System.out.println("\nCancelando.\n");
+                                break;
+
+                            default:
+                                System.out.println("\nOpção inválida, perguntando denovo.\n");
+                                break;
+                        
+                            }
+                    } while(aux2 != 'c');
                     break;
 
                 case 'i':
@@ -114,7 +144,7 @@ public class Principal {
 
                 case 'v':
                     limparTela();
-                    System.out.println("Vazando.");
+                    System.out.println("Vazando e salvando.");
                     break;
 
                 default:
@@ -126,6 +156,7 @@ public class Principal {
 
         FileManager.salvarFilmes(gerenciadorCinema.getFilmes());
         FileManager.salvarClientes(gerenciadorCinema.getClientes());
+        FileManager.salvarSessoes(gerenciadorCinema.getSessoes());
 
         scanner.close();
     }

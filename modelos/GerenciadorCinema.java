@@ -29,6 +29,10 @@ public class GerenciadorCinema {
 
         sessoes = new ArrayList<>();
 
+        if (FileManager.getArquivoSessoes().exists()) {
+            sessoes = FileManager.carregarSessoes(FileManager.carregarDados(FileManager.getArquivoSessoes()), this);
+        }
+
         ingressos = new ArrayList<>();
         
         clientes = new ArrayList<>();
@@ -67,10 +71,14 @@ public class GerenciadorCinema {
 
     public void removerFilme() {
         System.out.println();
-        System.out.println("Insira o índice do filme: ");
-        int indice = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println();
+        System.out.println("Pesquise o título do filme: ");
+        int indice = pesquisarFilme(null);
+        
+        if (indice == -1) {
+            System.out.println("Cancelando remoção do filme.");
+            System.out.println();
+            return;
+        }
 
         Filme filmeRemovido = filmes.get(indice);
 
@@ -88,16 +96,34 @@ public class GerenciadorCinema {
      * Pesquisa incidência do filme por meio do título.
      * @return -1 caso não exista um filme com o mesmo título; índice do filme caso exista.
      */
-    public int pesquisarFilme() {
-        System.out.println();
-        System.out.println("Insira o título do filme: ");
-        String titulo = scanner.nextLine();
-        System.out.println();
+    public int pesquisarFilme(String tituloPesquisado) {
+        if (tituloPesquisado == null) {
+            System.out.println();
+            System.out.println("Insira o título do filme: ");
+            String titulo = scanner.nextLine();
+            System.out.println();
+
+            int indice = 0;
+
+            for (Filme filme : filmes) {
+                if (filme.getTitulo().equals(titulo)) {
+                    System.out.println("Filme encontrado: \n" + indice + ": " + filme.toString());
+                    System.out.println();
+                    return indice;
+                }
+
+                indice++;
+            }
+
+            System.out.println("Filme não encontrado.");
+            System.out.println();
+            return -1;
+        }
 
         int indice = 0;
 
         for (Filme filme : filmes) {
-            if (filme.getTitulo().equals(titulo)) {
+            if (filme.getTitulo().equals(tituloPesquisado)) {
                 System.out.println("Filme encontrado: \n" + indice + ": " + filme.toString());
                 System.out.println();
                 return indice;
@@ -105,7 +131,7 @@ public class GerenciadorCinema {
 
             indice++;
         }
-
+        
         System.out.println("Filme não encontrado.");
         System.out.println();
         return -1;
@@ -151,10 +177,14 @@ public class GerenciadorCinema {
 
     public void removerCliente() {
         System.out.println();
-        System.out.println("Insira o índice do cliente: ");
-        int indice = scanner.nextInt();
-        scanner.nextLine();
-        System.out.println();
+        System.out.println("Pesquise o nome do cliente: ");
+        int indice = pesquisarCliente();
+
+        if (indice == -1) {
+            System.out.println("Cancelando remoção do cliente.");
+            System.out.println();
+            return;
+        }
 
         Cliente clienteRemovido = clientes.get(indice);
 
@@ -214,7 +244,7 @@ public class GerenciadorCinema {
         System.out.println();
         System.out.println("Pesquise o filme (nome) para a sessão: ");
 
-        int indiceFilme = pesquisarFilme();
+        int indiceFilme = pesquisarFilme(null);
 
         if (indiceFilme < 0) {
             System.out.println("Filme inválido. Cancelando adição da sessão.");
