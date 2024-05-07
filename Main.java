@@ -1,11 +1,11 @@
 import java.util.Scanner;
 import modelos.*;
 
-public class Principal {
+public class Main {
 
     public static void main(String[] args) {
 
-        GerenciadorCinema gerenciadorCinema = new GerenciadorCinema();        
+        CinemaManager gerenciadorCinema = new CinemaManager();        
 
         Scanner scanner = new Scanner(System.in);
         char aux = ' ';
@@ -143,12 +143,12 @@ public class Principal {
                     do {
                         aux2 = ' ';
 
-                        System.out.println("Gerenciando ingressos.\n\nEscolha uma opção:\n[v]ender\n[r]emover\n[l]istar\n[c]ancelar");
+                        System.out.println("Gerenciando ingressos.\n\nEscolha uma opção:\n[v]ender\n[r]emover\n[l]istar\n[t]otal de vendas\n[c]ancelar");
                         aux2 = scanner.next().toLowerCase().charAt(0);
                         scanner.nextLine();
 
                         switch (aux2) {
-                            case 'a':
+                            case 'v':
                                 gerenciadorCinema.venderIngresso();
                                 break;
                             
@@ -158,6 +158,10 @@ public class Principal {
                             
                             case 'l':
                                 gerenciadorCinema.listarIngressos();
+                                break;
+
+                            case 't':
+                                gerenciadorCinema.calcularVendas();
                                 break;
                             
                             case 'c':

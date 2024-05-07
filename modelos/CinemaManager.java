@@ -7,23 +7,34 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GerenciadorCinema {
+public class CinemaManager {
 
     static Scanner scanner = new Scanner(System.in);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
 
     private List<Filme> filmes;
+    private List<Cliente> clientes;
     private List<Sessao> sessoes;
     private List<Ingresso> ingressos;
-    private List<Cliente> clientes;
 
-    public GerenciadorCinema() {
-        filmes = new ArrayList<>();
-        sessoes = new ArrayList<>();
-        ingressos = new ArrayList<>();
-        clientes = new ArrayList<>();
-
+    public CinemaManager() {
         FileManager.carregarArquivos(this);
+
+        if (filmes == null) {
+            filmes = new ArrayList<>();
+        }
+
+        if (clientes == null) {
+            clientes = new ArrayList<>();
+        }
+
+        if (sessoes == null) {
+            sessoes = new ArrayList<>();
+        }
+
+        if (ingressos == null) {
+            ingressos = new ArrayList<>();
+        }
     }
 
     // Métodos para adicionar, remover, pesquisar, listar filmes, sessoes, ingressos e clientes
@@ -56,7 +67,6 @@ public class GerenciadorCinema {
     public void removerFilme() {
         listarFilmes();
 
-        System.out.println();
         System.out.println("Insira o índice do filme: ");
         int indice = scanner.nextInt();
         scanner.nextLine();
@@ -69,6 +79,7 @@ public class GerenciadorCinema {
             e.printStackTrace();        
         }
 
+        System.out.println();
         System.out.println(filmeRemovido + " removido.");
         System.out.println();
     }
@@ -158,7 +169,6 @@ public class GerenciadorCinema {
     public void removerCliente() {
         listarClientes();
 
-        System.out.println();
         System.out.println("Insira o índice do cliente: ");
         int indice = scanner.nextInt();
         scanner.nextLine();
@@ -171,6 +181,7 @@ public class GerenciadorCinema {
             e.printStackTrace();        
         }
 
+        System.out.println();
         System.out.println(clienteRemovido + " removido.");
         System.out.println();
     }
@@ -220,7 +231,6 @@ public class GerenciadorCinema {
     public void adicionarSessao() {
         listarFilmes();
         
-        System.out.println();
         System.out.println("Insira o índice do filme da sessão: ");
         int indice = scanner.nextInt();
         Filme filme = filmes.get(indice);
@@ -267,6 +277,7 @@ public class GerenciadorCinema {
             e.printStackTrace();        
         }
 
+        System.out.println();
         System.out.println(sessaoRemovida + " removida.");
         System.out.println();
     }
@@ -289,7 +300,6 @@ public class GerenciadorCinema {
     public void venderIngresso() {
         listarSessoes();
 
-        System.out.println();
         System.out.println("Insira o índice da sessão do ingresso: ");
         int indice = scanner.nextInt();
         Sessao sessao = sessoes.get(indice);
@@ -317,7 +327,6 @@ public class GerenciadorCinema {
     public void removerIngresso() {
         listarIngressos();
 
-        System.out.println();
         System.out.println("Insira o índice do ingresso: ");
         int indice = scanner.nextInt();
         scanner.nextLine();
@@ -333,6 +342,7 @@ public class GerenciadorCinema {
 
         Ingresso.setVendas(Ingresso.getVendas() - preco);
 
+        System.out.println();
         System.out.println(ingressoRemovido + " removido.");
         System.out.println();
     }
@@ -347,6 +357,11 @@ public class GerenciadorCinema {
             indice++;
         }
 
+        System.out.println();
+    }
+
+    public void calcularVendas() {
+        System.out.println("\ntotal de vendas atual: R$ " + Ingresso.getVendas());
         System.out.println();
     }
 

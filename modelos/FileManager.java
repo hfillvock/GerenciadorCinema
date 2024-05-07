@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FileManager implements Serializable {
 
-    public static void salvarArquivos(GerenciadorCinema gerenciadorCinema) {
+    public static void salvarArquivos(CinemaManager gerenciadorCinema) {
 
         try {
             FileOutputStream fileFilmes = new FileOutputStream("filmes.ser");
@@ -45,7 +45,7 @@ public class FileManager implements Serializable {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public static void carregarArquivos(GerenciadorCinema gerenciadorCinema) {
+    public static void carregarArquivos(CinemaManager gerenciadorCinema) {
 
         List<Filme> filmes = null;
         List<Cliente> clientes = null;
