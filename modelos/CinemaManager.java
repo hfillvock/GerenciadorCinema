@@ -88,17 +88,17 @@ public class CinemaManager {
      * Pesquisa incidência do filme por meio do título.
      * @return -1 caso não exista um filme com o mesmo título; índice do filme caso exista.
      */
-    public int pesquisarFilme(String tituloPesquisado) {
-        if (tituloPesquisado == null) {
+    public int pesquisarFilme(String titulo) {
+        if (titulo == null) {
             System.out.println();
             System.out.println("Insira o título do filme: ");
-            String titulo = scanner.nextLine();
+            String tituloPesquisado = scanner.nextLine();
             System.out.println();
 
             int indice = 0;
 
             for (Filme filme : filmes) {
-                if (filme.getTitulo().equals(titulo)) {
+                if (filme.getTitulo().equals(tituloPesquisado)) {
                     System.out.println("Filme encontrado: \n" + indice + ": " + filme.toString());
                     System.out.println();
                     return indice;
@@ -106,26 +106,9 @@ public class CinemaManager {
 
                 indice++;
             }
-
             System.out.println("Filme não encontrado.");
             System.out.println();
-            return -1;
         }
-
-        int indice = 0;
-
-        for (Filme filme : filmes) {
-            if (filme.getTitulo().equals(tituloPesquisado)) {
-                System.out.println("Filme encontrado: \n" + indice + ": " + filme.toString());
-                System.out.println();
-                return indice;
-            }
-
-            indice++;
-        }
-        
-        System.out.println("Filme não encontrado.");
-        System.out.println();
         return -1;
     }
     
