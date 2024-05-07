@@ -1,3 +1,0 @@
-Sessao [filme=pequeno tomate, data=2024-04-29, sala=2]
-Sessao [filme=massacre, data=2025-03-02, sala=5]
-Sessao [filme=jonas, data=2024-05-06, sala=3]

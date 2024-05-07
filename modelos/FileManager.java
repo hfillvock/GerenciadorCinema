@@ -1,242 +1,93 @@
 package modelos;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FileManager {
-    
-    private static String diretorioProjeto = System.getProperty("user.dir");
+public class FileManager implements Serializable {
 
-    private static File arquivoFilmes = new File(diretorioProjeto, "filmes.txt");
-    private static File arquivoSessoes = new File(diretorioProjeto, "sessoes.txt");
-    private static File arquivoClientes = new File(diretorioProjeto, "clientes.txt");
-    private static File arquivoIngressos = new File(diretorioProjeto, "ingressos.txt");
-
-    public FileManager() {
-        inicializarArquivo(arquivoFilmes);
-        inicializarArquivo(arquivoSessoes);
-        inicializarArquivo(arquivoClientes);
-        inicializarArquivo(arquivoIngressos);
-    }
-
-    public static boolean inicializarArquivo(File arquivo) {
-        try {
-            boolean criado = arquivo.createNewFile();
-
-            if (criado) {
-                System.out.println("Arquivo " + arquivo.getName() + " criado com sucesso.");
-                return criado;
-            } else {
-                System.out.println("Arquivo " + arquivo.getName() + "já existe.");
-                return criado;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    public static void salvarFilmes(List<Filme> filmes) {
-        salvarDados(filmes, arquivoFilmes);
-    }
-
-    public static void salvarSessoes(List<Sessao> sessoes) {
-        salvarDados(sessoes, arquivoSessoes);
-    }
-
-    public static void salvarIngressos(List<Ingresso> ingressos) {
-        salvarDados(ingressos, arquivoIngressos);
-    }
-
-    public static void salvarClientes(List<Cliente> clientes) {
-        salvarDados(clientes, arquivoClientes);
-    }
-    
-    /**
-     * Salva os dados de uma lista para um arquivo.
-     * @param dados lista cujos dados serão salvos.
-     * @param arquivo arquivo onde os dados devem ser salvos.
-     */
-    private static void salvarDados(List<?> dados, File arquivo) {
-        try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo));
-
-            for (Object item : dados) {
-                writer.write(item.toString());
-                writer.newLine();
-            }
-
-            writer.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static List<Filme> carregarFilmes(List<String> dadosCarregados) {
-        List<Filme> filmesCarregados = new ArrayList<>();
-
-        for (String representacao : dadosCarregados) {
-            String[] parametros = representacao.substring(7, representacao.length() - 1).split(", ");
-
-            String titulo = null;
-            int classificacao = 0;
-            int duracao = 0;
-
-            for (String parametro : parametros) {
-                String[] valorChave = parametro.split("=");
-                String chave = valorChave[0];
-                String valor = valorChave[1];
-
-                switch (chave) {
-                    case "titulo":
-                        titulo = valor;
-                        break;
-                    case "classificacao":
-                        classificacao = Integer.parseInt(valor);
-                        break;
-                    case "duracao":
-                        duracao = Integer.parseInt(valor);
-                        break;
-                    default:
-                        System.out.println("ERRO: Chave inválida.");
-                        break;
-                }
-            }
-
-            Filme filme = new Filme(titulo, classificacao, duracao);
-            filmesCarregados.add(filme);
-        }
-
-        return filmesCarregados;
-    }  
-
-    public static List<Cliente> carregarClientes(List<String> dadosCarregados) {
-        List<Cliente> clientesCarregados = new ArrayList<>();
-
-        for (String representacao : dadosCarregados) {
-            String[] parametros = representacao.substring(9, representacao.length() - 1).split(", ");
-
-            String nome = null;
-            String email = null;
-            int idade = 0;
-
-            for (String parametro : parametros) {
-                String[] valorChave = parametro.split("=");
-                String chave = valorChave[0];
-                String valor = valorChave[1];
-
-                switch (chave) {
-                    case "nome":
-                        nome = valor;
-                        break;
-                    case "email":
-                        email = valor;
-                        break;
-                    case "idade":
-                        idade = Integer.parseInt(valor);
-                        break;
-                    default:
-                        System.out.println("ERRO: Chave inválida.");
-                        break;
-                }
-            }
-
-            Cliente cliente = new Cliente(nome, email, idade);
-            clientesCarregados.add(cliente);
-        }
-
-        return clientesCarregados;
-    }
-
-    public static List<Sessao> carregarSessoes(List<String> dadosCarregados, GerenciadorCinema gerenciadorCinema) {
-        List<Sessao> sessoesCarregadas = new ArrayList<>();
-
-        for (String representacao : dadosCarregados) {
-            String[] parametros = representacao.substring(8, representacao.length() - 1).split(", ");
-
-            Filme filme = null;
-            LocalDate data = null;
-            int sala = 0;
-
-            for (String parametro : parametros) {
-                String[] valorChave = parametro.split("=");
-                String chave = valorChave[0];
-                String valor = valorChave[1];
-
-                switch (chave) {
-                    case "filme":
-                        filme = gerenciadorCinema.getFilmes().get(gerenciadorCinema.pesquisarFilme(valor));
-                        break;
-                    case "data":
-                        data = LocalDate.parse(valor);
-                        break;
-                    case "sala":
-                        sala = Integer.parseInt(valor);
-                        break;
-                    default:
-                        System.out.println("ERRO: Chave inválida.");
-                        break;
-                }
-            }
-
-            Sessao sessao = new Sessao(filme, data, sala);
-            sessoesCarregadas.add(sessao);
-        }
-
-        return sessoesCarregadas;
-    }
-
-    /**
-     * Carrega os dados de um arquivo para uma lista de strings, e a retorna.
-     * @param arquivo arquivo a ter seu conteúdo carregado
-     * @return lista de strings com o conteúdo do arquivo
-     */
-    public static List<String> carregarDados(File arquivo) { 
-        List<String> dados = new ArrayList<>();
+    public static void salvarArquivos(GerenciadorCinema gerenciadorCinema) {
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(arquivo));
+            FileOutputStream fileFilmes = new FileOutputStream("filmes.ser");
+            ObjectOutputStream outFilmes = new ObjectOutputStream(fileFilmes);
 
-            String linha;
-            
-            while ((linha = reader.readLine()) != null) {
-                dados.add(linha);
-            }
-            
-            reader.close();
+            outFilmes.writeObject(gerenciadorCinema.getFilmes());
+            outFilmes.close();
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            FileOutputStream fileClientes = new FileOutputStream("clientes.ser");
+            ObjectOutputStream outClientes = new ObjectOutputStream(fileClientes);
+
+            outClientes.writeObject(gerenciadorCinema.getClientes());
+            outClientes.close();
+
+            FileOutputStream fileSessoes = new FileOutputStream("sessoes.ser");
+            ObjectOutputStream outSessoes = new ObjectOutputStream(fileSessoes);
+
+            outSessoes.writeObject(gerenciadorCinema.getSessoes());
+            outSessoes.close();
+
+            FileOutputStream fileIngressos = new FileOutputStream("ingressos.ser");
+            ObjectOutputStream outIngressos = new ObjectOutputStream(fileIngressos);
+
+            outIngressos.writeObject(gerenciadorCinema.getIngressos());
+            outIngressos.close();
+
+        } catch(IOException e) {
+            e.getLocalizedMessage();
         }
         
-        return dados;
     }
 
-    // getters
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static void carregarArquivos(GerenciadorCinema gerenciadorCinema) {
 
-    public static File getArquivoFilmes() {
-        return arquivoFilmes;
+        List<Filme> filmes = null;
+        List<Cliente> clientes = null;
+        List<Sessao> sessoes = null;
+        List<Ingresso> ingressos = null;
+
+        try {
+            FileInputStream fileFilmes = new FileInputStream("filmes.ser");
+            ObjectInputStream inFilmes = new ObjectInputStream(fileFilmes);
+
+            filmes = (ArrayList) inFilmes.readObject();
+            inFilmes.close();
+
+            FileInputStream fileClientes = new FileInputStream("clientes.ser");
+            ObjectInputStream inClientes = new ObjectInputStream(fileClientes);
+
+            clientes = (ArrayList) inClientes.readObject();
+            inClientes.close();
+
+            FileInputStream fileSessoes = new FileInputStream("sessoes.ser");
+            ObjectInputStream inSessoes = new ObjectInputStream(fileSessoes);
+
+            sessoes = (ArrayList) inSessoes.readObject();
+            inSessoes.close();
+
+            FileInputStream fileIngressos = new FileInputStream("ingressos.ser");
+            ObjectInputStream inIngressos = new ObjectInputStream(fileIngressos);
+
+            ingressos = (ArrayList) inIngressos.readObject();
+            inIngressos.close();
+
+        } catch(IOException e) {
+            e.getLocalizedMessage();
+        } catch (ClassNotFoundException e) {
+            e.getLocalizedMessage();
+        }
+
+        gerenciadorCinema.setFilmes(filmes);
+        gerenciadorCinema.setClientes(clientes);
+        gerenciadorCinema.setSessoes(sessoes);
+        gerenciadorCinema.setIngressos(ingressos);
     }
-
-    public static File getArquivoSessoes() {
-        return arquivoSessoes;
-    }
-
-    public static File getArquivoClientes() {
-        return arquivoClientes;
-    }
-
-    public static File getArquivoIngressos() {
-        return arquivoIngressos;
-    }
-
 }
+
+

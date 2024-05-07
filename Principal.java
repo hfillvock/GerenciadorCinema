@@ -30,7 +30,7 @@ public class Principal {
                     do {
                         aux2 = ' ';
 
-                        System.out.println("Gerenciando filmes.\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[p]esquisar\n[l]istar\n[c]ancelar");
+                        System.out.println("Gerenciando filmes.\n\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[p]esquisar\n[l]istar\n[c]ancelar");
                         aux2 = scanner.next().toLowerCase().charAt(0);
                         scanner.nextLine();
 
@@ -69,7 +69,7 @@ public class Principal {
                     do {
                         aux2 = ' ';
 
-                        System.out.println("Gerenciando clientes.\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[p]esquisar\n[l]istar\n[c]ancelar");
+                        System.out.println("Gerenciando clientes.\n\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[p]esquisar\n[l]istar\n[c]ancelar");
                         aux2 = scanner.next().toLowerCase().charAt(0);
                         scanner.nextLine();
 
@@ -108,7 +108,7 @@ public class Principal {
                     do {
                         aux2 = ' ';
 
-                        System.out.println("Gerenciando sessões.\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[l]istar\n[c]ancelar");
+                        System.out.println("Gerenciando sessões.\n\nEscolha uma opção:\n[a]dicionar\n[r]emover\n[l]istar\n[c]ancelar");
                         aux2 = scanner.next().toLowerCase().charAt(0);
                         scanner.nextLine();
 
@@ -139,7 +139,37 @@ public class Principal {
 
                 case 'i':
                     limparTela();
-                    System.out.println("Gerenciando ingressos\nEscolha uma opção: "); 
+
+                    do {
+                        aux2 = ' ';
+
+                        System.out.println("Gerenciando ingressos.\n\nEscolha uma opção:\n[v]ender\n[r]emover\n[l]istar\n[c]ancelar");
+                        aux2 = scanner.next().toLowerCase().charAt(0);
+                        scanner.nextLine();
+
+                        switch (aux2) {
+                            case 'a':
+                                gerenciadorCinema.venderIngresso();
+                                break;
+                            
+                            case 'r':
+                                gerenciadorCinema.removerIngresso();
+                                break;
+                            
+                            case 'l':
+                                gerenciadorCinema.listarIngressos();
+                                break;
+                            
+                            case 'c':
+                                System.out.println("\nCancelando.\n");
+                                break;
+
+                            default:
+                                System.out.println("\nOpção inválida, perguntando denovo.\n");
+                                break;
+                        
+                            }
+                    } while(aux2 != 'c');
                     break;
 
                 case 'v':
@@ -154,9 +184,7 @@ public class Principal {
             }
         }
 
-        FileManager.salvarFilmes(gerenciadorCinema.getFilmes());
-        FileManager.salvarClientes(gerenciadorCinema.getClientes());
-        FileManager.salvarSessoes(gerenciadorCinema.getSessoes());
+        FileManager.salvarArquivos(gerenciadorCinema);
 
         scanner.close();
     }

@@ -17,29 +17,13 @@ public class GerenciadorCinema {
     private List<Ingresso> ingressos;
     private List<Cliente> clientes;
 
-    /**
-     * Constrói as listas de filmes, sessões, ingressos e clientes e recebe os conteúdos de seus arquivos respectivos caso já existam.
-     */
     public GerenciadorCinema() {
         filmes = new ArrayList<>();
-
-        if (FileManager.getArquivoFilmes().exists()) {
-            filmes = FileManager.carregarFilmes(FileManager.carregarDados(FileManager.getArquivoFilmes()));
-        }
-
         sessoes = new ArrayList<>();
-
-        if (FileManager.getArquivoSessoes().exists()) {
-            sessoes = FileManager.carregarSessoes(FileManager.carregarDados(FileManager.getArquivoSessoes()), this);
-        }
-
         ingressos = new ArrayList<>();
-        
         clientes = new ArrayList<>();
 
-        if (FileManager.getArquivoClientes().exists()) {
-            clientes = FileManager.carregarClientes(FileManager.carregarDados(FileManager.getArquivoClientes()));
-        }
+        FileManager.carregarArquivos(this);
     }
 
     // Métodos para adicionar, remover, pesquisar, listar filmes, sessoes, ingressos e clientes
@@ -70,15 +54,12 @@ public class GerenciadorCinema {
     }
 
     public void removerFilme() {
+        listarFilmes();
+
         System.out.println();
-        System.out.println("Pesquise o título do filme: ");
-        int indice = pesquisarFilme(null);
-        
-        if (indice == -1) {
-            System.out.println("Cancelando remoção do filme.");
-            System.out.println();
-            return;
-        }
+        System.out.println("Insira o índice do filme: ");
+        int indice = scanner.nextInt();
+        scanner.nextLine();
 
         Filme filmeRemovido = filmes.get(indice);
 
@@ -174,17 +155,13 @@ public class GerenciadorCinema {
         System.out.println();
     }
 
-
     public void removerCliente() {
-        System.out.println();
-        System.out.println("Pesquise o nome do cliente: ");
-        int indice = pesquisarCliente();
+        listarClientes();
 
-        if (indice == -1) {
-            System.out.println("Cancelando remoção do cliente.");
-            System.out.println();
-            return;
-        }
+        System.out.println();
+        System.out.println("Insira o índice do cliente: ");
+        int indice = scanner.nextInt();
+        scanner.nextLine();
 
         Cliente clienteRemovido = clientes.get(indice);
 
@@ -241,17 +218,12 @@ public class GerenciadorCinema {
     // métodos de Sessao
 
     public void adicionarSessao() {
-        System.out.println();
-        System.out.println("Pesquise o filme (nome) para a sessão: ");
-
-        int indiceFilme = pesquisarFilme(null);
-
-        if (indiceFilme < 0) {
-            System.out.println("Filme inválido. Cancelando adição da sessão.");
-            return;
-        }
+        listarFilmes();
         
-        Filme filme = filmes.get(indiceFilme);
+        System.out.println();
+        System.out.println("Insira o índice do filme da sessão: ");
+        int indice = scanner.nextInt();
+        Filme filme = filmes.get(indice);
 
         System.out.println();
         System.out.println("Insira a data da sessão (dd/mm/yyyy): ");
@@ -279,6 +251,8 @@ public class GerenciadorCinema {
     }
 
     public void removerSessao() {
+        listarSessoes();
+
         System.out.println();
         System.out.println("Insira o índice da sessão: ");
         int indice = scanner.nextInt();
@@ -303,6 +277,72 @@ public class GerenciadorCinema {
 
         for (Sessao sessao : sessoes) {
             System.out.println(indice + ": " + sessao);
+
+            indice++;
+        }
+
+        System.out.println();
+    }
+
+    // métodos de Ingresso
+
+    public void venderIngresso() {
+        listarSessoes();
+
+        System.out.println();
+        System.out.println("Insira o índice da sessão do ingresso: ");
+        int indice = scanner.nextInt();
+        Sessao sessao = sessoes.get(indice);
+        scanner.nextLine();
+        System.out.println();
+
+        System.out.println("Insira o número do assento do ingresso: ");
+        int numeroAssento = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println();
+
+        System.out.println("Insira o preço do ingresso: ");
+        double preco = scanner.nextDouble();
+        System.out.println();
+
+        Ingresso ingressoAdicionado = new Ingresso(sessao, numeroAssento, preco);
+        ingressos.add(ingressoAdicionado);
+
+        Ingresso.setVendas(Ingresso.getVendas() + preco);
+
+        System.out.println("Ingresso adicionado.");
+        System.out.println();
+    }
+
+    public void removerIngresso() {
+        listarIngressos();
+
+        System.out.println();
+        System.out.println("Insira o índice do ingresso: ");
+        int indice = scanner.nextInt();
+        scanner.nextLine();
+
+        Ingresso ingressoRemovido = ingressos.get(indice);
+        double preco = ingressoRemovido.getPreco();
+
+        try {
+            ingressos.remove(indice);    
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();        
+        }
+
+        Ingresso.setVendas(Ingresso.getVendas() - preco);
+
+        System.out.println(ingressoRemovido + " removido.");
+        System.out.println();
+    }
+
+    public void listarIngressos() {
+        System.out.println();
+        int indice = 0;
+
+        for (Ingresso ingresso : ingressos) {
+            System.out.println(indice + ": " + ingresso);
 
             indice++;
         }

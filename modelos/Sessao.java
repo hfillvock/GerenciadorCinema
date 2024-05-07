@@ -1,8 +1,9 @@
 package modelos;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Sessao {
+public class Sessao implements Serializable{
 
     private Filme filme;
     private LocalDate data;

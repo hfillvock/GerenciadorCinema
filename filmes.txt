@@ -1,5 +1,0 @@
-Filme [titulo=jonas, classificacao=21, duracao=220]
-Filme [titulo=massacre, classificacao=11, duracao=120]
-Filme [titulo=morte, classificacao=1, duracao=10]
-Filme [titulo=terror, classificacao=31, duracao=30]
-Filme [titulo=pequeno tomate, classificacao=18, duracao=120]

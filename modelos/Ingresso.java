@@ -1,10 +1,13 @@
 package modelos;
 
-public class Ingresso {
+import java.io.Serializable;
+
+public class Ingresso implements Serializable{
 
     private Sessao sessao;
     private int numeroAssento;
     private double preco;
+    private static double vendas;
     
     public Ingresso(Sessao sessao, int numeroAssento, double preco) {
         this.sessao = sessao;
@@ -36,9 +39,17 @@ public class Ingresso {
         this.preco = preco;
     }
 
+    public static double getVendas() {
+        return vendas;
+    }
+
+    public static void setVendas(double vendas) {
+        Ingresso.vendas = vendas;
+    }
+
     @Override
     public String toString() {
         return "Ingresso [sessao=" + sessao + ", numeroAssento=" + numeroAssento + ", preco=" + preco + "]";
     }
-    
+  
 }
